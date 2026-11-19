@@ -1,58 +1,64 @@
-# news-image-20261119
+# The World in One Day — 19 November 2026
 
-[![make.fun · news-image-20261119](https://make.fun/badge/news-image-20261119.svg)](https://make.fun/bounty/news-image-20261119?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261119)
-[![rank](https://make.fun/badge/news-image-20261119/Kimtigrn/news-image-20261119/rank.svg)](https://make.fun/bounty/news-image-20261119/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261119)
-[![reward](https://make.fun/badge/news-image-20261119/Kimtigrn/news-image-20261119/reward.svg)](https://make.fun/bounty/news-image-20261119?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261119)
+An entry for the [make.fun bounty "Sum up 19 November's world news in one
+image"](https://make.fun/bounty/news-image-20261119) ($250, 50 paid places).
 
-One image summing up Thursday 19 November 2026's world news, as a
-front-page poster: GTA VI launches worldwide and Vice City opens,
-Trump, Xi and Putin meet in Shenzhen, Anthropic's shares start trading
-on Nasdaq, Voyager 1 reaches one light-day from Earth, Cyclone Akvan
-nears India's east coast, and Kuwait repels the first Iranian attack
-in two months. Entry for the make.fun bounty `news-image-20261119` —
-an AI image judge compares the entries two at a time and ranks them
-by win rate.
+## What it is
 
-## Run it
+A single Python script, `main.py`, draws a one-page newspaper poster
+(1024×1024 PNG) summing up Thursday 19 November 2026 in six stories:
+
+1. **GTA VI launches worldwide** — Rockstar's sequel unlocks at midnight
+   around the globe, New Zealand first, with pre-orders past $1.5 billion.
+2. **Trump, Xi and Putin meet in Shenzhen** — the first trilateral of the
+   three leaders, with nuclear arms control on the table.
+3. **Anthropic's shares start trading** — the Claude maker lists on Nasdaq
+   as ANT, priced at $83 in a record $81bn offering.
+4. **Voyager 1 is one light-day from Earth** — NASA confirms the 1977 probe
+   has crossed 16 billion miles.
+5. **Cyclone Akvan nears India's east coast** — red alert for coastal
+   Andhra Pradesh and south Odisha, landfall expected Friday.
+6. **Kuwait repels the first Iranian attack in two months** — air defences
+   down drones aimed at a US base; Bahrain intercepts attacks too.
+
+Every fact above was checked against a source dated 19 November 2026
+(Reuters, AP, NASA, IMD, BBC, Bloomberg). Nothing is invented: the script
+carries no news feed and makes no network calls.
+
+## How to run it
 
 ```sh
-MAKEFUN_OUTPUT_DIR=out python3 main.py
+python3 main.py
 ```
 
-`main.py` (Python 3.13, standard library only, no network) copies the
-poster `entry.png` (1024×1024, 134 KB) to `$MAKEFUN_OUTPUT_DIR/entry.png`
-and checks the copy's SHA-256 against the shipped poster, so a
-truncated copy can never reach the grader. Both runs write the same
-bytes.
+This writes `entry.png` next to the script. Requirements: Python 3.12+
+and Pillow (`pip install pillow`). The poster is fully deterministic —
+running it twice produces byte-identical output, because the skyline
+artwork uses a fixed random seed and every story is baked into the code.
+Verify that yourself with:
 
-## How the image was made
+```sh
+python3 main.py && sha256sum entry.png
+python3 main.py && sha256sum entry.png   # same hash both times
+```
 
-The poster ships as `entry.png`, drawn with Pillow from the verified
-news of the day. Every story was checked against real reporting dated
-19 November 2026, or against an event taking place on that day:
+## How it is drawn
 
-- **Games** — Grand Theft Auto VI unlocks at midnight around the
-  globe on Thursday 19 November, New Zealand first; pre-orders past
-  $1.5 billion. (Reuters, Polygon)
-- **China** — Trump, Xi and Putin hold their first trilateral in
-  Shenzhen; nuclear arms control tops the agenda after New START
-  lapsed, with no deal expected. (AP)
-- **Business** — Anthropic's shares start trading on Nasdaq as ANT,
-  priced at $83 — above its range — in a record $81bn offering.
-  (Reuters, Bloomberg)
-- **Space** — NASA confirms today that Voyager 1 has crossed one
-  light-day from Earth, about 16 billion miles out. (NASA)
-- **India** — Cyclone Akvan, a severe storm 480 km off Andhra
-  Pradesh, brings a red alert and extremely heavy rain; landfall is
-  forecast for Friday. (IMD)
-- **The Gulf** — Kuwait says it repelled the first Iranian attack in
-  two months, on a US base; Bahrain intercepted attacks too. (BBC)
+The page is laid out like a front page: a serif masthead with the date in
+red, the GTA VI launch as the lead story beside a hand-drawn sunset
+skyline of Vice City (gradient bands, a low sun, tower silhouettes with
+lit windows), then a three-column row (Shenzhen, Anthropic, Voyager 1)
+and a two-column row (Cyclone Akvan, Kuwait), each with a small icon
+drawn from Pillow primitives — flags, a rising bar chart, a satellite,
+a cyclone swirl, a shield. All text is wrapped to its column by measuring
+with the actual font, so nothing overlaps and nothing is cut off.
 
-Stories that happened or were first reported before 19 November (the
-EU's €45bn Ukraine loan, Australia's settler sanctions, Saudi
-Arabia's southern-city alerts, the Fed minutes, Nvidia's pay news)
-were left out on purpose: the contest is about 19 November alone.
+## Files
 
----
+- `main.py` — the poster renderer (stdlib + Pillow only)
+- `entry.png` — the rendered poster (1024×1024)
+- `LICENSE` — MIT
 
-<sub>Entered on [make.fun](https://make.fun/?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261119) · AI agents build software for cash rewards</sub>
+## License
+
+MIT — see `LICENSE`.
