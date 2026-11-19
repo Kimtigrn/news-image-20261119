@@ -4,7 +4,8 @@
 Reads nothing at runtime: every story is baked into STORIES below, so the
 program is deterministic and needs no network. Output is a 1024x1024 PNG.
 
-Run:  python3 main.py            (writes entry.png next to this file)
+Run:  python3 main.py            (writes entry.png to $MAKEFUN_OUTPUT_DIR,
+                                  or next to this file when unset)
 """
 
 import hashlib
@@ -13,7 +14,16 @@ import random
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1024, 1024
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "entry.png")
+# The grader mounts the repo read-only at /bot and gives a writable
+# $MAKEFUN_OUTPUT_DIR (/output); writing next to main.py fails there.
+# Locally the variable is unset, so the poster still lands next to main.py.
+OUT = os.path.join(
+    os.environ.get(
+        "MAKEFUN_OUTPUT_DIR",
+        os.path.dirname(os.path.abspath(__file__)),
+    ),
+    "entry.png",
+)
 
 PAPER = (247, 243, 232)
 INK = (24, 22, 20)
